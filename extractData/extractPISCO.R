@@ -35,9 +35,14 @@ extrae_data_PISCO  <- function(coords, nc, dates){
 datos = extrae_data_PISCO(archivo_coords, archivo_nc, dates)
 
 # Exportar datos
-write.csv(resp, archivo_salida, quote = F)
+# write.csv(resp, archivo_salida, quote = F)
 
 # Mostrar graficos
 ggplot(datos, aes(x=dates)) +
   geom_line(aes(y = EST1), color = "darkred") +
   geom_line(aes(y = EST2), color = "steelblue")
+
+plot()
+st = stack(archivo_nc)
+plot(st[[1]])
+plot(spoint, add=TRUE)
