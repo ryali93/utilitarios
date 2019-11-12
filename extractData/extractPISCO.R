@@ -17,19 +17,16 @@ archivo_salida = "salida.csv"
 dates = seq(as.Date("1981/01/01"), as.Date("2016-12-31"), by = "month")
 
 # Funcion de extraccion
-extrae_data_PISCO  <- function(coords, nc, dates){
-  long_lat <- read.csv(archivo_coords, sep=";", header = T)
-  vx     = velox(stack(archivo_nc))
-  spoint = SpatialPoints(coords = long_lat[c("x","y")])
-  data   = vx$extract_points(sp=spoint)
+long_lat <- read.csv(archivo_coords, sep=";", header = T)
+vx     = velox(stack(archivo_nc))
+spoint = SpatialPoints(coords = long_lat[c("x","y")])
+data   = vx$extract_points(sp=spoint)
 
-  # Cambiar nombre a los campos
-  d = as.data.frame(t(data))
-  colnames(d) = long_lat$NN
-  resp = cbind(d, dates)
+# Cambiar nombre a los campos
+d = as.data.frame(t(data))
+colnames(d) = long_lat$NN
+resp = cbind(d, dates)
 
-  return(resp)
-}
 
 # Ejecutando la funcion
 datos = extrae_data_PISCO(archivo_coords, archivo_nc, dates)
@@ -42,7 +39,6 @@ ggplot(datos, aes(x=dates)) +
   geom_line(aes(y = EST1), color = "darkred") +
   geom_line(aes(y = EST2), color = "steelblue")
 
-plot()
 st = stack(archivo_nc)
 plot(st[[1]])
 plot(spoint, add=TRUE)
